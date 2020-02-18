@@ -1,0 +1,211 @@
+
+MAP
+	NAME Taller_MAP_SERVER
+		SIZE 700 500
+		STATUS ON
+		#EXTENT [xmin] [ymin] [xmax] [ymax]
+		EXTENT 1053855.50 860198.93 1068480.77 879011.06
+		
+		SHAPEPATH "geodata/"
+		FONTSET "lib/fonts/fonts.txt"
+		SYMBOLSET "lib/symbols/symbols.sym"
+		
+		IMAGECOLOR 255 255 255
+		UNITS METERS
+
+	WEB
+		IMAGEPATH "/var/www/html/sig3/mapserver-sig3/tmp/"
+		IMAGEURL "tmp/"
+	END
+	
+	#Leyenda embebida
+	LEGEND
+		STATUS EMBED
+		IMAGECOLOR 2050 92 90
+		POSITION LL
+		KEYSIZE 20 12
+		KEYSPACING 5 5
+		LABEL
+			TYPE TRUETYPE
+			FONT "sans"
+			SIZE 9
+			COLOR 255 160 122
+		END
+		OUTLINECOLOR 100 100 90
+		#TRANSPARENT on
+	END
+	
+	SCALEBAR
+		STYLE 1
+		STATUS EMBED
+		SIZE 250 4
+		COLOR 80 80 80
+		UNITS METERS
+		INTERVALS 6
+		TRANSPARENT off
+		POSITION LR
+		BACKGROUNDCOLOR 255 255 255
+		IMAGECOLOR 255 255 255
+		OUTLINECOLOR 211 211 211
+		LABEL
+			COLOR 0 0 0
+			SIZE TINY
+		END 
+	END
+	
+	LAYER
+		NAME "NORTE"
+		TYPE POINT
+		STATUS ON
+		TRANSFORM OFF
+		POSTLABELCACHE TRUE
+		FEATURE
+			POINTS 
+				80 80
+			END
+		END
+		CLASS
+			SYMBOL 'rosavientos'
+			COLOR 10 20 30
+			OUTLINECOLOR 0 0 0
+			STYLE END
+		END
+	END
+	
+	LAYER
+		NAME "Poligonos"
+		STATUS ON
+		DATA "barrios_cali.shp"
+		TYPE POLYGON
+		
+		LABELITEM "barrio"
+		LABELCACHE ON
+		
+		CLASS
+			NAME "Barrios"
+			STYLE
+				COLOR 140 182 190
+				OUTLINECOLOR 0 0 0
+			END
+			
+			LABEL
+				COLOR 0 0 0
+				FONT sans
+				TYPE TRUETYPE
+				POSITION CC
+				PARTIALS TRUE
+				SIZE 7
+				BUFFER 2
+				OUTLINECOLOR 255 255 255
+			END
+		END
+	END
+	
+	LAYER
+		NAME "Lineas"
+		STATUS ON
+		DATA "rutas_mio.shp"
+		TYPE LINE
+		CLASS
+			NAME "Rutas Masivo Integrado de Oriente"
+			STYLE
+				COLOR 230 18 152
+				OUTLINECOLOR 7 133 223
+			END
+		END
+	END	
+	LAYER
+		NAME "Puntos"
+		STATUS ON
+		DATA "estaciones_mio.shp"
+		TYPE POINT
+		CLASS
+			NAME "Estaciones"
+			STYLE
+			    SYMBOL star
+				SIZE 15
+				COLOR 40 36 165
+				OUTLINECOLOR 30 255 40
+			END
+		END
+	END
+	
+	
+	LAYER
+	  NAME "Rios"
+	  TYPE RASTER
+	  STATUS ON
+	  CONNECTION "http://ws-idesc.cali.gov.co:8081/geoserver/wms?"
+	  CONNECTIONTYPE WMS
+	  METADATA
+	    "wms_srs"             "EPSG:3115"
+	    "wms_name"            "pot_2014:bcs_hid_rios"
+	   "wms_server_version"  "1.1.0"
+	   "wms_format"          "image/png"
+	  END
+	END
+	
+	LAYER
+	  NAME "Areas protegidas"
+	  TYPE RASTER
+	  STATUS ON
+	  CONNECTION "http://ws-idesc.cali.gov.co:8081/geoserver/wms?"
+	  CONNECTIONTYPE WMS
+	  METADATA
+	    "wms_srs"             "EPSG:3115"
+	    "wms_name"            "pot_2014:amb_eep_areas_protegidas"
+	   "wms_server_version"  "1.1.0"
+	   "wms_format"          "image/png"
+	  END
+	END 
+	
+	LAYER
+	  NAME "Zona ambiental del Rio Cauca"
+	  TYPE RASTER
+	  STATUS ON
+	  CONNECTION "http://ws-idesc.cali.gov.co:8081/geoserver/wms?"
+	  CONNECTIONTYPE WMS
+	  METADATA
+	    "wms_srs"             "EPSG:3115"
+	    "wms_name"            "pot_2014:amb_eep_aeie_proteccion_ambiental_rio_cauca"
+	   "wms_server_version"  "1.1.0"
+	   "wms_format"          "image/png"
+	  END
+	END 
+	
+	LAYER
+		NAME "Grilla"
+		METADATA
+			"DESCRIPTION" "Grid"
+		END
+		TYPE LINE
+		STATUS ON
+		CLASS
+			NAME "Graticule"
+			COLOR 10 10 10
+			LABEL
+				COLOR 36 36 36
+				FONT sans
+				TYPE truetype
+				SIZE 8
+				POSITION AUTO
+				PARTIALS FALSE
+				BUFFER 5
+				OUTLINECOLOR 255 255 255
+			END
+		END
+		PROJECTION
+			"init=epsg:3115"
+		END
+		GRID
+			#LABELFORMAT DDMM
+			#MAXARCS 5
+			#MAXINTERVAL 5
+			#MAXSUBDIVIDE 2
+			
+			LABELFORMAT '%.0fm'
+			MININTERVAL 5000
+		END
+	END
+	
+END
